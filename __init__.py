@@ -1,7 +1,7 @@
 bl_info = {
     "name": "+Identidade",
     "author": "+Identidade",
-    "version": (3, 0, 1),
+    "version": (3, 0, 2),
     "blender": (5, 0, 0),
     "location": "View3D > N-Panel > +ID",
     "description": "Ferramentas para criação de próteses 3D oncológicas",
@@ -536,6 +536,34 @@ class PLUSID_OT_Fotogrametria(Operator):
             return {'CANCELLED'}
 
         wm.progress_end()
+        return {'FINISHED'}
+
+
+# ============================================================
+# OPERADORES - UTILITÁRIOS DE CONSOLE
+# ============================================================
+class PLUSID_OT_AbrirCMD(Operator):
+    bl_idname = "plusid.abrir_cmd"
+    bl_label = "Abrir CMD"
+    bl_description = "Abre o terminal Windows na pasta do paciente"
+
+    def execute(self, context):
+        pasta = pasta_paciente(context)
+        os.makedirs(pasta, exist_ok=True)
+        subprocess.Popen(
+            ['cmd', '/k', f'cd /d "{pasta}" && echo Pasta: {pasta}'],
+            creationflags=subprocess.CREATE_NEW_CONSOLE,
+        )
+        return {'FINISHED'}
+
+
+class PLUSID_OT_AbrirConsoleBlender(Operator):
+    bl_idname = "plusid.abrir_console_blender"
+    bl_label = "Console Blender"
+    bl_description = "Abre/fecha o console de sistema do Blender (saída Python)"
+
+    def execute(self, context):
+        bpy.ops.wm.console_toggle()
         return {'FINISHED'}
 
 
@@ -1421,6 +1449,10 @@ class PLUSID_PT_Fotogrametria(Panel):
         layout.separator()
         row = layout.row(); row.scale_y = 2.0
         row.operator("plusid.fotogrametria", icon='IMAGE_DATA')
+        layout.separator()
+        row2 = layout.row(align=True)
+        row2.operator("plusid.abrir_cmd",             icon='CONSOLE', text="Abrir CMD")
+        row2.operator("plusid.abrir_console_blender", icon='SCRIPT',  text="Console Blender")
 
 
 class PLUSID_PT_Escala(Panel):
@@ -1777,6 +1809,8 @@ class PLUSID_PT_Atualizacao(Panel):
 classes = [
     PlusIDProperties,
     PLUSID_OT_SalvarPaciente,
+    PLUSID_OT_AbrirCMD,
+    PLUSID_OT_AbrirConsoleBlender,
     PLUSID_OT_Fotogrametria,
     PLUSID_OT_SnapPonto,
     PLUSID_OT_AplicarEscala,
