@@ -1,5 +1,5 @@
 {
-  "version": [3, 0, 0],
+  "version": [3, 0, 1],
   "descricao": "Análise de simetria, verificação de impressão, pontos anatômicos, GPU COLMAP",
   "data": "2026-03-19"
 }

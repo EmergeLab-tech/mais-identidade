@@ -1,7 +1,7 @@
 bl_info = {
     "name": "+Identidade",
     "author": "+Identidade",
-    "version": (3, 0, 0),
+    "version": (3, 0, 1),
     "blender": (5, 0, 0),
     "location": "View3D > N-Panel > +ID",
     "description": "Ferramentas para criação de próteses 3D oncológicas",
@@ -1471,9 +1471,9 @@ class PLUSID_PT_Escultura(Panel):
     def draw(self, context):
         layout = self.layout
         col = layout.column(align=True); col.scale_y = 1.2
-        col.operator("plusid.escultura_grab",  icon='BRUSH_GRAB')
-        col.operator("plusid.escultura_smooth", icon='BRUSH_SMOOTH')
-        col.operator("plusid.escultura_clay",   icon='BRUSH_CLAY')
+        col.operator("plusid.escultura_grab",   icon='HAND')
+        col.operator("plusid.escultura_smooth", icon='MOD_SMOOTH')
+        col.operator("plusid.escultura_clay",   icon='SCULPTMODE_HLT')
         col.operator("plusid.modo_objeto",      icon='OBJECT_DATA')
         layout.separator()
         box = layout.box()
